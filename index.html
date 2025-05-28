@@ -7,14 +7,16 @@
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, #a8edea, #fed6e3);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
       text-align: center;
       padding: 50px;
-      margin: 0;
-      animation: fadeIn 2s ease-in;
-      min-height: 100vh; /* Занимаем всю высоту экрана */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     @keyframes fadeIn {
@@ -22,15 +24,15 @@
       to { opacity: 1; }
     }
 
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     h1 {
       color: #6a0dad;
       font-size: 36px;
       animation: slideIn 1.5s ease-out;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
 
     p {
@@ -71,11 +73,13 @@
   </style>
 </head>
 <body>
-  <h1>Добро пожаловать, Госпожа!</h1>
-  <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
-  <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
-  <br>
-  <button onclick="alert('Ты чудесна!')">Нажми меня</button>
-  <button onclick="alert('Эта кнопка тоже работает!')">Нажми и эту</button>
+  <div class="container">
+    <h1>Добро пожаловать, Госпожа!</h1>
+    <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
+    <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
+    <br>
+    <button onclick="alert('Ты чудесна!')">Нажми меня</button>
+    <button onclick="alert('Эта кнопка тоже работает!')">Нажми и эту</button>
+  </div>
 </body>
 </html>

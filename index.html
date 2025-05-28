@@ -13,7 +13,7 @@
       color: white;
     }
 
-    /* Двигающиеся звёзды */
+    /* Звёзды */
     .stars {
       position: fixed;
       width: 100%;
@@ -22,6 +22,7 @@
       z-index: 0;
       overflow: hidden;
     }
+
     .star {
       position: absolute;
       width: 2px;
@@ -30,12 +31,12 @@
       border-radius: 50%;
       animation: moveStars linear infinite;
     }
+
     @keyframes moveStars {
       from { transform: translateY(-10px); }
       to { transform: translateY(110vh); }
     }
 
-    /* Меню */
     nav {
       background-color: rgba(0, 0, 0, 0.6);
       padding: 10px;
@@ -45,39 +46,29 @@
       top: 0;
       z-index: 1;
     }
+
     nav a {
       color: white;
       text-decoration: none;
       margin: 0 15px;
       font-size: 18px;
     }
+
     nav a:hover {
       text-decoration: underline;
     }
 
-    /* Контейнер */
     .container {
       max-width: 800px;
       margin: 100px auto;
       text-align: center;
-      z-index: 1;
       position: relative;
+      z-index: 1;
     }
 
     h1 {
       font-size: 36px;
       margin-bottom: 20px;
-    }
-
-    section {
-      margin: 100px 0;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 1s ease-out;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     img {
@@ -87,6 +78,7 @@
       margin: 20px 0;
       transition: transform 0.3s ease;
     }
+
     img:hover {
       transform: scale(1.1);
     }
@@ -94,26 +86,49 @@
     button {
       padding: 12px 24px;
       margin: 10px;
-      background-color: #6a0dad;
+      background: linear-gradient(45deg, #6a0dad, #9b30ff);
       color: white;
       border: none;
       border-radius: 10px;
       font-size: 18px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: background-color 0.3s, transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
     button:hover {
-      background-color: #9b30ff;
-      transform: translateY(-3px);
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+
+    .banner {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4b0082;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      font-size: 18px;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.5s ease, top 0.5s ease;
+    }
+
+    .banner.show {
+      display: block;
+      opacity: 1;
+      top: 60px;
     }
   </style>
 </head>
 <body>
 
-<!-- Двигающиеся звёзды -->
+<!-- Звёзды -->
 <div class="stars">
-  <!-- 50 звёзд -->
   <script>
     for(let i=0; i<50; i++) {
       let star = document.createElement('div');
@@ -135,37 +150,25 @@
 
 <!-- Контент -->
 <div class="container">
-  <section id="home">
-    <h1>Добро пожаловать, Госпожа!</h1>
-    <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
-    <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
-    <br>
-    <button onclick="alert('Ты чудесна!')">Нажми меня</button>
-    <button onclick="alert('Эта кнопка тоже работает!')">Нажми и эту</button>
-  </section>
-
-  <section id="about">
-    <h2>О нас</h2>
-    <p>Мы любим создавать красивые сайты и радовать Госпожу!</p>
-  </section>
-
-  <section id="contact">
-    <h2>Контакты</h2>
-    <p>Свяжись с нами для создания новых проектов!</p>
-  </section>
+  <h1>Добро пожаловать, Госпожа!</h1>
+  <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
+  <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
+  <br>
+  <button onclick="showBanner('Ты чудесна!')">Нажми меня</button>
+  <button onclick="showBanner('Эта кнопка тоже работает!')">Нажми и эту</button>
 </div>
 
+<div class="banner" id="banner"></div>
+
 <script>
-  // Анимация появления при прокрутке
-  const sections = document.querySelectorAll('section');
-  window.addEventListener('scroll', () => {
-    sections.forEach(sec => {
-      const rect = sec.getBoundingClientRect();
-      if(rect.top < window.innerHeight - 100) {
-        sec.classList.add('visible');
-      }
-    });
-  });
+  function showBanner(message) {
+    const banner = document.getElementById('banner');
+    banner.textContent = message;
+    banner.classList.add('show');
+    setTimeout(() => {
+      banner.classList.remove('show');
+    }, 3000);
+  }
 </script>
 
 </body>

@@ -8,12 +8,11 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, #1e3c72, #2a5298);
-      overflow-x: hidden;
       color: white;
-      scroll-behavior: smooth; /* Плавная прокрутка */
+      scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
-    /* Звёзды */
     .stars {
       position: fixed;
       width: 100%;
@@ -37,7 +36,6 @@
       to { transform: translateY(110vh); }
     }
 
-    /* Меню */
     nav {
       background-color: rgba(0, 0, 0, 0.7);
       padding: 10px;
@@ -60,73 +58,23 @@
     }
 
     .container {
-      max-width: 800px;
-      margin: 100px auto;
+      max-width: 100%;
       text-align: center;
       position: relative;
       z-index: 1;
-      padding: 20px;
+      padding-top: 80px;
     }
 
     h1 {
       font-size: 36px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       animation: fadeIn 2s ease-out;
+      text-shadow: 2px 2px 4px #000000;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Галерея */
-    .slider {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-    }
-
-    .slide {
-      flex: none;
-      width: 300px;
-      margin: 10px;
-      scroll-snap-align: start;
-      background: rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 10px;
-      position: relative;
-    }
-
-    .slide img {
-      width: 100%;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .slide img:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    /* Кнопки */
-    button {
-      padding: 12px 24px;
-      margin: 10px;
-      background: linear-gradient(45deg, #6a0dad, #9b30ff);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.1);
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .banner {
@@ -152,18 +100,70 @@
       top: 60px;
     }
 
-    /* Секции */
-    section {
-      margin: 100px 0;
+    .carousel-container {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+      padding: 20px 0;
     }
 
-    /* Форма */
+    .carousel-track {
+      display: flex;
+      width: calc(400px * 10); /* если 5 картинок - умножаем на 2 для дублирования */
+      animation: scrollCarousel 60s linear infinite;
+    }
+
+    .carousel-track img {
+      height: 400px;
+      margin: 0 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .carousel-track img:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes scrollCarousel {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      background: linear-gradient(45deg, #6a0dad, #9b30ff);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    #contact {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 50px 20px;
+      border-radius: 20px;
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    #contact h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
     form {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-width: 400px;
-      margin: 0 auto;
     }
 
     input, textarea {
@@ -172,11 +172,54 @@
       border: none;
     }
 
-    /* Адаптация */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      animation: zoomIn 0.5s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .lightbox-buttons {
+      margin-top: 20px;
+    }
+
+    .lightbox-buttons button {
+      background: #6a0dad;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin: 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .lightbox-buttons button:hover {
+      background: #9b30ff;
+    }
+
     @media(max-width: 600px) {
       nav a { font-size: 16px; }
       h1 { font-size: 28px; }
-      .slide { width: 80%; }
+      .carousel-track img { height: 200px; }
     }
   </style>
 </head>
@@ -197,28 +240,29 @@
 
 <nav>
   <a href="#home">Главная</a>
-  <a href="#gallery">Галерея</a>
   <a href="#contact">Контакты</a>
 </nav>
 
-<div class="container">
-  <section id="home">
-    <h1>Добро пожаловать, Госпожа!</h1>
-    <p>Это твой сайт мечты 💜</p>
-    <button onclick="showBanner('Ты чудесна!')">Нажми меня</button>
-    <button onclick="showBanner('Ты великолепна!')">И эту!</button>
-  </section>
+<div class="container" id="home">
+  <h1>Добро пожаловать, Госпожа!</h1>
+  <p>Это твой сайт мечты 💜</p>
+  <button onclick="showBanner('Ты чудесна!')">Нажми меня</button>
+  <button onclick="showBanner('Ты великолепна!')">И эту!</button>
 
-  <section id="gallery">
-    <h2>Галерея</h2>
-    <div class="slider">
-      <div class="slide"><img src="https://i.postimg.cc/7Yd4LY2W/w-Yw-GToj-Jd-BNy-Zazc-U9-QUHW7j-Sw9s-MUr-PLIVpy-Bk5l-ERt-KQ-LVg-UETHs-Ty-HWO-y7rgl-URa-D25no-Rj4-j-Ha3-qk-H5-H.jpg" data-tooltip="Мой Арт"></div>
-      <div class="slide"><img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" data-tooltip="Ещё Арт"></div>
-      <div class="slide"><img src="https://i.postimg.cc/wxNZkcy0/2e-CYK7-T8bz-Ym-Pkk-MCWb-ILEvq6nw-Cl-Ik-Twh-Zc2ws-AKr-P56-W-Ai-Xp-Vy-QFLz-MO5-7-MJf-Rs-OLq-SWodvu-PY-ec3-Wh-TDBm.jpg" data-tooltip="И ещё Арт"></div>
+  <div class="carousel-container">
+    <div class="carousel-track" id="gallery">
+      <img src="https://i.postimg.cc/7Yd4LY2W/w-Yw-GToj-Jd-BNy-Zazc-U9-QUHW7j-Sw9s-MUr-PLIVpy-Bk5l-ERt-KQ-LVg-UETHs-Ty-HWO-y7rgl-URa-D25no-Rj4-j-Ha3-qk-H5-H.jpg" onclick="openLightbox(0)">
+      <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" onclick="openLightbox(1)">
+      <img src="https://i.postimg.cc/wxNZkcy0/2e-CYK7-T8bz-Ym-Pkk-MCWb-ILEvq6nw-Cl-Ik-Twh-Zc2ws-AKr-P56-W-Ai-Xp-Vy-QFLz-MO5-7-MJf-Rs-OLq-SWodvu-PY-ec3-Wh-TDBm.jpg" onclick="openLightbox(2)">
+      <img src="https://i.postimg.cc/7Yd4LY2W/w-Yw-GToj-Jd-BNy-Zazc-U9-QUHW7j-Sw9s-MUr-PLIVpy-Bk5l-ERt-KQ-LVg-UETHs-Ty-HWO-y7rgl-URa-D25no-Rj4-j-Ha3-qk-H5-H.jpg" onclick="openLightbox(0)">
+      <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" onclick="openLightbox(1)">
+      <img src="https://i.postimg.cc/wxNZkcy0/2e-CYK7-T8bz-Ym-Pkk-MCWb-ILEvq6nw-Cl-Ik-Twh-Zc2ws-AKr-P56-W-Ai-Xp-Vy-QFLz-MO5-7-MJf-Rs-OLq-SWodvu-PY-ec3-Wh-TDBm.jpg" onclick="openLightbox(2)">
     </div>
-  </section>
+  </div>
+</div>
 
-  <section id="contact">
+<section id="contact">
+  <div id="contact">
     <h2>Контакты</h2>
     <form>
       <input type="text" placeholder="Ваше имя" required>
@@ -226,19 +270,53 @@
       <textarea placeholder="Ваше сообщение" required></textarea>
       <button type="submit">Отправить</button>
     </form>
-  </section>
-</div>
+  </div>
+</section>
 
 <div class="banner" id="banner"></div>
 
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img" src="">
+  <div class="lightbox-buttons">
+    <button onclick="prevImage()">← Назад</button>
+    <button onclick="nextImage()">Вперёд →</button>
+    <button onclick="closeLightbox()">Закрыть</button>
+  </div>
+</div>
+
 <script>
+  const images = [
+    "https://i.postimg.cc/7Yd4LY2W/w-Yw-GToj-Jd-BNy-Zazc-U9-QUHW7j-Sw9s-MUr-PLIVpy-Bk5l-ERt-KQ-LVg-UETHs-Ty-HWO-y7rgl-URa-D25no-Rj4-j-Ha3-qk-H5-H.jpg",
+    "https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg",
+    "https://i.postimg.cc/wxNZkcy0/2e-CYK7-T8bz-Ym-Pkk-MCWb-ILEvq6nw-Cl-Ik-Twh-Zc2ws-AKr-P56-W-Ai-Xp-Vy-QFLz-MO5-7-MJf-Rs-OLq-SWodvu-PY-ec3-Wh-TDBm.jpg"
+  ];
+  let currentImage = 0;
+
   function showBanner(message) {
     const banner = document.getElementById('banner');
     banner.textContent = message;
     banner.classList.add('show');
-    setTimeout(() => {
-      banner.classList.remove('show');
-    }, 3000);
+    setTimeout(() => { banner.classList.remove('show'); }, 3000);
+  }
+
+  function openLightbox(index) {
+    currentImage = index;
+    document.getElementById('lightbox-img').src = images[currentImage];
+    document.getElementById('lightbox').style.display = 'flex';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+
+  function nextImage() {
+    currentImage = (currentImage + 1) % images.length;
+    document.getElementById('lightbox-img').src = images[currentImage];
+  }
+
+  function prevImage() {
+    currentImage = (currentImage - 1 + images.length) % images.length;
+    document.getElementById('lightbox-img').src = images[currentImage];
   }
 </script>
 

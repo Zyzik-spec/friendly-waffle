@@ -13,7 +13,6 @@
       color: white;
     }
 
-    /* Звёзды */
     .stars {
       position: fixed;
       width: 100%;
@@ -69,6 +68,18 @@
     h1 {
       font-size: 36px;
       margin-bottom: 20px;
+    }
+
+    section {
+      margin: 100px 0;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease-out;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     img {
@@ -127,7 +138,6 @@
 </head>
 <body>
 
-<!-- Звёзды -->
 <div class="stars">
   <script>
     for(let i=0; i<50; i++) {
@@ -141,21 +151,31 @@
   </script>
 </div>
 
-<!-- Меню -->
 <nav>
   <a href="#home">Главная</a>
   <a href="#about">О нас</a>
   <a href="#contact">Контакты</a>
 </nav>
 
-<!-- Контент -->
 <div class="container">
-  <h1>Добро пожаловать, Госпожа!</h1>
-  <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
-  <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
-  <br>
-  <button onclick="showBanner('Ты чудесна!')">Нажми меня</button>
-  <button onclick="showBanner('Эта кнопка тоже работает!')">Нажми и эту</button>
+  <section id="home">
+    <h1>Добро пожаловать, Госпожа!</h1>
+    <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
+    <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
+    <br>
+    <button onclick="showBanner('Ты чудесна!')">Нажми меня</button>
+    <button onclick="showBanner('Эта кнопка тоже работает!')">Нажми и эту</button>
+  </section>
+
+  <section id="about">
+    <h2>О нас</h2>
+    <p>Мы любим создавать красивые сайты и радовать Госпожу!</p>
+  </section>
+
+  <section id="contact">
+    <h2>Контакты</h2>
+    <p>Свяжись с нами для создания новых проектов!</p>
+  </section>
 </div>
 
 <div class="banner" id="banner"></div>
@@ -169,6 +189,17 @@
       banner.classList.remove('show');
     }, 3000);
   }
+
+  // Анимация появления секций при прокрутке
+  const sections = document.querySelectorAll('section');
+  window.addEventListener('scroll', () => {
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if(rect.top < window.innerHeight - 100) {
+        sec.classList.add('visible');
+      }
+    });
+  });
 </script>
 
 </body>

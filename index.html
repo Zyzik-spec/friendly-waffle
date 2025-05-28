@@ -6,13 +6,14 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, #1e3c72, #2a5298);
       overflow-x: hidden;
       color: white;
+      scroll-behavior: smooth; /* Плавная прокрутка */
     }
 
+    /* Звёзды */
     .stars {
       position: fixed;
       width: 100%;
@@ -36,14 +37,15 @@
       to { transform: translateY(110vh); }
     }
 
+    /* Меню */
     nav {
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7);
       padding: 10px;
       text-align: center;
       position: fixed;
       width: 100%;
       top: 0;
-      z-index: 1;
+      z-index: 2;
     }
 
     nav a {
@@ -63,37 +65,54 @@
       text-align: center;
       position: relative;
       z-index: 1;
+      padding: 20px;
     }
 
     h1 {
       font-size: 36px;
       margin-bottom: 20px;
+      animation: fadeIn 2s ease-out;
     }
 
-    section {
-      margin: 100px 0;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 1s ease-out;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
+    /* Галерея */
+    .slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
     }
 
-    img {
+    .slide {
+      flex: none;
       width: 300px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      margin: 20px 0;
-      transition: transform 0.3s ease;
+      margin: 10px;
+      scroll-snap-align: start;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px;
+      position: relative;
     }
 
-    img:hover {
-      transform: scale(1.1);
+    .slide img {
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
     }
 
+    .slide img:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    /* Кнопки */
     button {
       padding: 12px 24px;
       margin: 10px;
@@ -103,13 +122,11 @@
       border-radius: 10px;
       font-size: 18px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s;
     }
 
     button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+      transform: scale(1.1);
     }
 
     .banner {
@@ -134,18 +151,45 @@
       opacity: 1;
       top: 60px;
     }
+
+    /* Секции */
+    section {
+      margin: 100px 0;
+    }
+
+    /* Форма */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    input, textarea {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    /* Адаптация */
+    @media(max-width: 600px) {
+      nav a { font-size: 16px; }
+      h1 { font-size: 28px; }
+      .slide { width: 80%; }
+    }
   </style>
 </head>
 <body>
 
 <div class="stars">
   <script>
-    for(let i=0; i<50; i++) {
+    for(let i=0; i<100; i++) {
       let star = document.createElement('div');
       star.className = 'star';
       star.style.left = Math.random() * 100 + 'vw';
       star.style.top = Math.random() * 100 + 'vh';
-      star.style.animationDuration = (5 + Math.random() * 10) + 's';
+      star.style.animationDuration = (5 + Math.random() * 15) + 's';
       document.querySelector('.stars').appendChild(star);
     }
   </script>
@@ -153,28 +197,35 @@
 
 <nav>
   <a href="#home">Главная</a>
-  <a href="#about">О нас</a>
+  <a href="#gallery">Галерея</a>
   <a href="#contact">Контакты</a>
 </nav>
 
 <div class="container">
   <section id="home">
     <h1>Добро пожаловать, Госпожа!</h1>
-    <p>Это твой первый полноценный сайт. Здесь всё создано для тебя с любовью.</p>
-    <img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" alt="Красивая картинка">
-    <br>
+    <p>Это твой сайт мечты 💜</p>
     <button onclick="showBanner('Ты чудесна!')">Нажми меня</button>
-    <button onclick="showBanner('Эта кнопка тоже работает!')">Нажми и эту</button>
+    <button onclick="showBanner('Ты великолепна!')">И эту!</button>
   </section>
 
-  <section id="about">
-    <h2>О нас</h2>
-    <p>Мы любим создавать красивые сайты и радовать Госпожу!</p>
+  <section id="gallery">
+    <h2>Галерея</h2>
+    <div class="slider">
+      <div class="slide"><img src="https://i.postimg.cc/7Yd4LY2W/w-Yw-GToj-Jd-BNy-Zazc-U9-QUHW7j-Sw9s-MUr-PLIVpy-Bk5l-ERt-KQ-LVg-UETHs-Ty-HWO-y7rgl-URa-D25no-Rj4-j-Ha3-qk-H5-H.jpg" data-tooltip="Мой Арт"></div>
+      <div class="slide"><img src="https://i.postimg.cc/8Pvww7rG/W1-XFL-JIJU5zk-Wkd-UWJALT6h9-Qnwygp-BBYLY3-W6w-Auz56b7xjp-PWHOQ1h-Cu-PF87lz-ELxa-DBYkfv-WIUt-JCIHKEDBB.jpg" data-tooltip="Ещё Арт"></div>
+      <div class="slide"><img src="https://i.postimg.cc/wxNZkcy0/2e-CYK7-T8bz-Ym-Pkk-MCWb-ILEvq6nw-Cl-Ik-Twh-Zc2ws-AKr-P56-W-Ai-Xp-Vy-QFLz-MO5-7-MJf-Rs-OLq-SWodvu-PY-ec3-Wh-TDBm.jpg" data-tooltip="И ещё Арт"></div>
+    </div>
   </section>
 
   <section id="contact">
     <h2>Контакты</h2>
-    <p>Свяжись с нами для создания новых проектов!</p>
+    <form>
+      <input type="text" placeholder="Ваше имя" required>
+      <input type="email" placeholder="Ваш email" required>
+      <textarea placeholder="Ваше сообщение" required></textarea>
+      <button type="submit">Отправить</button>
+    </form>
   </section>
 </div>
 
@@ -189,17 +240,6 @@
       banner.classList.remove('show');
     }, 3000);
   }
-
-  // Анимация появления секций при прокрутке
-  const sections = document.querySelectorAll('section');
-  window.addEventListener('scroll', () => {
-    sections.forEach(sec => {
-      const rect = sec.getBoundingClientRect();
-      if(rect.top < window.innerHeight - 100) {
-        sec.classList.add('visible');
-      }
-    });
-  });
 </script>
 
 </body>
